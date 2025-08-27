@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD Usuários</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Usuários</h1>
+    <table id="usuariosTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Senha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Usuários vão aparecer aqui -->
+        </tbody>
+    </table>
+
+    <script>
+        // Função para carregar usuários do backend
+        fetch('http://localhost:8080/crud/usuarios/listar')
+            .then(response => response.json())
+            .then(usuarios => {
+                const tbody = document.getElementById('usuariosTable').querySelector('tbody');
+                usuarios.forEach(u => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${u.idUsuario}</td>
+                        <td>${u.nomeUsuario}</td>
+                        <td>${u.emailUsuario}</td>
+                        <td>${u.senhaUsuario}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(err => console.error('Erro ao carregar usuários:', err));
+    </script>
+</body>
+</html>
